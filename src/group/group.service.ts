@@ -1,7 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common'
-import { GroupDto } from 'src/dto/group.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
 import { v4 as uuidv4 } from 'uuid'
+
+import { GroupDto } from '@/dto/group.dto'
+import { PrismaService } from '@/prisma/prisma.service'
 
 @Injectable()
 export class GroupService {
@@ -33,7 +34,7 @@ export class GroupService {
 
     return this.prisma.group.create({
       data: {
-        id: uuidv4() as string,
+        id: uuidv4(),
         name: groupDto.name,
         photo: groupDto.photo,
         createdAt: new Date()
