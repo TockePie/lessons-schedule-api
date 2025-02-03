@@ -8,8 +8,10 @@ import { PrismaService } from '@/prisma/prisma.service'
 export class GroupService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getGroups() {
-    return this.prisma.group.findMany()
+  getGroupsName() {
+    return this.prisma.group.findMany({
+      select: { name: true, id: true }
+    })
   }
 
   getGroupById(id: string) {
@@ -37,7 +39,26 @@ export class GroupService {
         id: uuidv4(),
         name: groupDto.name,
         photo: groupDto.photo,
+        rowsAndDuration: groupDto.rowsAndDuration,
+        schedule: groupDto.schedule,
         createdAt: new Date()
+      }
+    })
+  }
+
+  updateGroupInfo(id: string, groupDto: GroupDto, password: string) {
+    //TODO: Change then to header authorization
+    if (password !== process.env.PASSWORD) {
+      throw new ConflictException('Invalid password')
+    }
+
+    return this.prisma.group.update({
+      where: { id: id },
+      data: {
+        name: groupDto.name,
+        photo: groupDto.photo,
+        rowsAndDuration: groupDto.rowsAndDuration,
+        schedule: groupDto.schedule
       }
     })
   }

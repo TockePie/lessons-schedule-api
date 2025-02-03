@@ -15,35 +15,11 @@ datasource db {
 }
 
 model Group {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  photo     String   @default("https://cdn4.iconfinder.com/data/icons/zira/128/calendar-1024.png")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  schedule   Schedule[]
-  selectives Selectives[]
-}
-
-model Schedule {
-  id      String @id @default(uuid())
-  rows    Json
-  lessons Json
-
-  groupId String @unique
-  group   Group  @relation(fields: [groupId], references: [id])
-
-  selectives Selectives[]
-}
-
-model Selectives {
-  id      String @id @default(cuid())
-  row     Json
-  lessons Json
-
-  scheduleId String?
-  schedule   Schedule? @relation(fields: [scheduleId], references: [id])
-
-  groupId String?
-  group   Group?  @relation(fields: [groupId], references: [id])
+  id              String   @id @default(uuid())
+  name            String   @unique
+  photo           String   @default("https://cdn4.iconfinder.com/data/icons/zira/128/calendar-1024.png")
+  rowsAndDuration Json?
+  schedule        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

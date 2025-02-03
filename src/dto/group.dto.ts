@@ -1,5 +1,6 @@
 import {
   IsDateString,
+  IsJSON,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -13,6 +14,14 @@ export class GroupDto {
 
   @IsUrl()
   photo: string
+
+  @IsJSON()
+  @IsNotEmpty()
+  rowsAndDuration: string
+
+  @IsJSON()
+  @IsNotEmpty()
+  schedule: string
 
   @IsOptional()
   @IsDateString()
