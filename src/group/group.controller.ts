@@ -1,12 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  Request
-} from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common'
+import { Request } from 'express'
 import { GroupDto } from 'src/dto/group.dto'
 
 import { GroupService } from './group.service'
@@ -21,11 +14,8 @@ export class GroupController {
   }
 
   @Post()
-  createGroup(
-    @Body() groupDto: GroupDto,
-    @Request() req: { cookies: { [key: string]: string } }
-  ) {
-    const password = req.cookies['password']
+  createGroup(@Body() groupDto: GroupDto, @Req() req: Request) {
+    const password = req.cookies['password'] as string
 
     return this.group.createGroup(groupDto, password)
   }
@@ -39,9 +29,9 @@ export class GroupController {
   updateGroupInfo(
     @Param('id') id: string,
     @Body() groupDto: GroupDto,
-    @Request() req: { cookies: { [key: string]: string } }
+    @Req() req: Request
   ) {
-    const password = req.cookies['password']
+    const password = req.cookies['password'] as string
 
     return this.group.updateGroupInfo(id, groupDto, password)
   }

@@ -19,7 +19,6 @@ export class GroupDto {
   @IsNotEmpty()
   rowsAndDuration: string
 
-  @IsJSON()
   @IsNotEmpty()
   schedule: string
 
