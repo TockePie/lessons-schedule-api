@@ -15,7 +15,7 @@ datasource db {
 }
 
 model group {
-  group_id   String     @id @default(uuid())
+  group_id   String     @id @default(uuid()) @map("group_id")
   name       String     @unique
   photo      String     @default("https://cdn4.iconfinder.com/data/icons/zira/128/calendar-1024.png")
   created_at DateTime   @default(now())
