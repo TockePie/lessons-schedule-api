@@ -1,26 +1,22 @@
 import {
   IsDateString,
-  IsJSON,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUrl
+  IsUrl,
+  IsUUID
 } from 'class-validator'
 
 export class GroupDto {
+  @IsUUID()
+  group_id: string
+
   @IsString()
   @IsNotEmpty()
   name: string
 
   @IsUrl()
   photo: string
-
-  @IsJSON()
-  @IsNotEmpty()
-  rowsAndDuration: string
-
-  @IsNotEmpty()
-  schedule: string
 
   @IsOptional()
   @IsDateString()
