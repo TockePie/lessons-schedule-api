@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
 
-import { GroupDto } from '@/dto/group.dto'
-import { PrismaService } from '@/prisma/prisma.service'
+import { GroupDto } from '../dto/group.dto'
+import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
 export class GroupService {
