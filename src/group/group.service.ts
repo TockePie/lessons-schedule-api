@@ -10,13 +10,13 @@ export class GroupService {
 
   getGroupsName() {
     return this.prisma.group.findMany({
-      select: { name: true, id: true }
+      select: { name: true, group_id: true }
     })
   }
 
   getGroupById(id: string) {
     return this.prisma.group.findUnique({
-      where: { id: id }
+      where: { group_id: id }
     })
   }
 
@@ -36,12 +36,10 @@ export class GroupService {
 
     return this.prisma.group.create({
       data: {
-        id: uuidv4(),
+        group_id: uuidv4(),
         name: groupDto.name,
         photo: groupDto.photo,
-        rowsAndDuration: groupDto.rowsAndDuration,
-        schedule: groupDto.schedule,
-        createdAt: new Date()
+        created_at: new Date()
       }
     })
   }
@@ -53,12 +51,10 @@ export class GroupService {
     }
 
     return this.prisma.group.update({
-      where: { id: id },
+      where: { group_id: id },
       data: {
         name: groupDto.name,
-        photo: groupDto.photo,
-        rowsAndDuration: groupDto.rowsAndDuration,
-        schedule: groupDto.schedule
+        photo: groupDto.photo
       }
     })
   }
