@@ -33,6 +33,7 @@ model schedule {
   type         lessonType
   day          Int
   row          Int
+  week_parity  weekParity
   is_selective Boolean
   created_at   DateTime   @default(now())
   updated_at   DateTime   @updatedAt
@@ -42,4 +43,10 @@ enum lessonType {
   LECTURE
   PRACTICE
   LAB
+}
+
+enum weekParity {
+  EVEN
+  ODD
+  BOTH
 }
