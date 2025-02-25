@@ -1,21 +1,21 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
 
-import { PrismaService } from '../prisma/prisma.service'
+import { PrismaService } from '../../config/prisma/prisma.service'
 
-import { GroupDto } from './dto/group.dto'
+import { GroupDto } from './group.dto'
 
 @Injectable()
 export class GroupService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getGroupsName() {
+  async getGroupsName() {
     return this.prisma.group.findMany({
       select: { name: true, group_id: true }
     })
   }
 
-  getGroupById(id: string) {
+  async getGroupById(id: string) {
     return this.prisma.group.findUnique({
       where: { group_id: id }
     })
@@ -45,7 +45,7 @@ export class GroupService {
     })
   }
 
-  updateGroupInfo(id: string, groupDto: GroupDto, password: string) {
+  async updateGroupInfo(id: string, groupDto: GroupDto, password: string) {
     //TODO: Change then to header authorization
     if (password !== process.env.PASSWORD) {
       throw new ConflictException('Invalid password')

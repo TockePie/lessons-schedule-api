@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common'
 import { Request } from 'express'
 
-import { GroupDto } from './dto/group.dto'
+import { GroupDto } from './group.dto'
 import { GroupService } from './group.service'
 
 @Controller('group')
