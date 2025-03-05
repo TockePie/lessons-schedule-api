@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+  Req
+} from '@nestjs/common'
 import { Request } from 'express'
 
 import { GroupDto } from './group.dto'
@@ -21,13 +30,13 @@ export class GroupController {
   }
 
   @Get(':id')
-  getGroupById(@Param('id') id: string) {
+  getGroupById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.group.getGroupById(id)
   }
 
   @Put(':id')
   updateGroupInfo(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() groupDto: GroupDto,
     @Req() req: Request
   ) {
