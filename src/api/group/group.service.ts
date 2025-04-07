@@ -11,7 +11,8 @@ export class GroupService {
 
   async getGroupsName() {
     return this.prisma.group.findMany({
-      select: { name: true, group_id: true }
+      select: { name: true, group_id: true },
+      orderBy: { name: 'asc' }
     })
   }
 

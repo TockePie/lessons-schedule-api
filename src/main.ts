@@ -7,7 +7,7 @@ import { AppModule } from './api/app.module'
 
 const PORT = process.env.PORT ?? 3000
 
-async function bootstrap() {
+void (async () => {
   const app = await NestFactory.create(AppModule, {
     cors: true
   })
@@ -15,9 +15,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
   app.use(cookieParser())
 
-  console.log(chalk.bgGreenBright(`Server is running on: ${PORT}`))
+  console.log(chalk.black.bgGreenBright(`Server is running on port: ${PORT}`))
 
   await app.listen(PORT)
-}
-
-bootstrap().catch((err) => console.error(err))
+})()
