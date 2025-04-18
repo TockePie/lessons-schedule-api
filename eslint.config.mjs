@@ -43,12 +43,18 @@ export default tseslint.config(
         'error',
         {
           groups: [
-            // Packages `react` related packages come first.
-            ['^react', '^@?\\w'],
-            // Internal packages.
-            ['^(@|components)(/.*|$)'],
-            // Side effect imports.
+            // Node.js builtins come first
+            ['^node:'],
+            // NestJS and other npm packages
+            ['^@nestjs', '^@?\\w'],
+            // Internal modules and aliases
+            ['^(@|src)(/.*|$)'],
+            // Side effect imports
             ['^\\u0000'],
+            // NestJS application modules
+            [
+              '^@(modules|controllers|services|entities|repositories|pipes|guards|interceptors|filters|decorators|dto|interfaces)(/.*|$)'
+            ],
             // Parent imports. Put `..` last.
             ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
             // Other relative imports. Put same-folder imports and `.` last.
