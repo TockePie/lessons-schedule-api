@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 
 import { LoggerMiddleWare } from '../common/middlewares/logger.middleware'
 
+import { ExamModule } from './exam/exam.module'
 import { GroupModule } from './group/group.module'
 import { ScheduleModule } from './schedule/schedule.module'
 
@@ -12,7 +13,8 @@ import { ScheduleModule } from './schedule/schedule.module'
     ScheduleModule,
     ConfigModule.forRoot({
       isGlobal: true
-    })
+    }),
+    ExamModule
   ]
 })
 export class AppModule {

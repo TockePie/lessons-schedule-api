@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 import { Request } from 'express'
 
-import { GroupDto } from './group.dto'
+import { GroupCreateDto } from './group.dto'
 import { GroupService } from './group.service'
 
 @Controller('group')
@@ -22,22 +22,22 @@ export class GroupController {
     return this.group.getGroupsName()
   }
 
-  @Post()
-  createGroup(@Body() groupDto: GroupDto, @Req() req: Request) {
-    const password = req.cookies['password'] as string
-
-    return this.group.createGroup(groupDto, password)
-  }
-
   @Get(':id')
   getGroupById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.group.getGroupById(id)
   }
 
+  @Post()
+  createGroup(@Body() groupDto: GroupCreateDto, @Req() req: Request) {
+    const password = req.cookies['password'] as string
+
+    return this.group.createGroup(groupDto, password)
+  }
+
   @Put(':id')
   updateGroupInfo(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() groupDto: GroupDto,
+    @Body() groupDto: GroupCreateDto,
     @Req() req: Request
   ) {
     const password = req.cookies['password'] as string

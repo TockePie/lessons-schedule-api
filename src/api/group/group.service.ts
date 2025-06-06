@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 
-import { GroupDto } from './group.dto'
+import { GroupCreateDto } from './group.dto'
 
 @Injectable()
 export class GroupService {
@@ -22,7 +22,7 @@ export class GroupService {
     })
   }
 
-  async createGroup(groupDto: GroupDto, password: string) {
+  async createGroup(groupDto: GroupCreateDto, password: string) {
     //TODO: Change then to header authorization
     if (password !== process.env.PASSWORD) {
       throw new ConflictException('Invalid password')
@@ -46,7 +46,11 @@ export class GroupService {
     })
   }
 
-  async updateGroupInfo(id: string, groupDto: GroupDto, password: string) {
+  async updateGroupInfo(
+    id: string,
+    groupDto: GroupCreateDto,
+    password: string
+  ) {
     //TODO: Change then to header authorization
     if (password !== process.env.PASSWORD) {
       throw new ConflictException('Invalid password')

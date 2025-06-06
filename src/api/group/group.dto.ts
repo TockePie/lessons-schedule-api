@@ -1,3 +1,6 @@
+import { UUID } from 'node:crypto'
+
+import { ApiProperty } from '@nestjs/swagger'
 import {
   IsDateString,
   IsNotEmpty,
@@ -9,20 +12,43 @@ import {
 
 export class GroupDto {
   @IsUUID()
-  group_id: string
+  @ApiProperty({
+    type: String,
+    format: 'uuid'
+  })
+  group_id: UUID
 
-  @IsString()
-  @IsNotEmpty()
-  name: string
-
-  @IsUrl()
-  photo: string
-
-  @IsOptional()
   @IsDateString()
+  @ApiProperty({
+    type: Date,
+    format: 'date-time'
+  })
   createdAt: Date
 
   @IsOptional()
   @IsDateString()
+  @ApiProperty({
+    type: Date,
+    format: 'date-time'
+  })
   updatedAt: Date
+}
+
+export class GroupCreateDto extends GroupDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    description: 'Name of the group',
+    example: 'ІО-32'
+  })
+  name: string
+
+  @IsUrl()
+  @ApiProperty({
+    type: String,
+    description: 'Photo URL of the group',
+    example: 'https://example.com/photo.jpg'
+  })
+  photo: string
 }
