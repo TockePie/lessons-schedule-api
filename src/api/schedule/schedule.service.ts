@@ -14,6 +14,27 @@ export class ScheduleService {
       where: {
         group_id: id,
         OR: [{ week_parity: weekParity }, { week_parity: 'BOTH' }]
+      },
+      select: {
+        id: true,
+        day: true,
+        row: true,
+        week_parity: true,
+        subject: {
+          select: {
+            title: true,
+            teacher: true,
+            type: true,
+            url: true,
+            is_selective: true
+          }
+        },
+        location: {
+          select: {
+            name: true,
+            url: true
+          }
+        }
       }
     })
   }

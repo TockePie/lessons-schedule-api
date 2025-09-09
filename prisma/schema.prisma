@@ -18,13 +18,18 @@ model group {
 }
 
 model schedule {
-  id         String    @id(map: "schedule_pkey1") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  subject_id String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  group_id   String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at DateTime  @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
-  updated_at DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @updatedAt @db.Timestamptz(6)
-  group      group     @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
-  subject    subject   @relation(fields: [subject_id], references: [subject_id], onDelete: Cascade)
+  id          String      @id(map: "schedule_pkey1") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subject_id  String      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  group_id    String      @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at  DateTime    @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  updated_at  DateTime?   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @updatedAt @db.Timestamptz(6)
+  day         Int
+  row         Int
+  week_parity weekParity?
+  location_id String?     @db.Uuid
+  group       group       @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  location    location?   @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subject     subject     @relation(fields: [subject_id], references: [subject_id], onDelete: Cascade)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -41,14 +46,21 @@ model subject {
   teacher      String
   url          String?
   type         lessonType
-  day          Int
-  row          Int
   created_at   DateTime   @default(now())
   is_selective Boolean
   subject_id   String     @id(map: "schedule_pkey") @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   updated_at   DateTime
-  week_parity  weekParity
   schedule     schedule[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model location {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?  @default(now()) @db.Timestamp(6)
+  name       String
+  url        String
+  schedule   schedule[]
 }
 
 enum lessonType {
