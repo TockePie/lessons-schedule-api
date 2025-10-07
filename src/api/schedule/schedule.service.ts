@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { weekParity } from 'prisma/generated'
+import { weekParity } from 'prisma/generated/prisma'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 

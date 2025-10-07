@@ -5,7 +5,7 @@ import {
   OnModuleInit
 } from '@nestjs/common'
 import chalk from 'chalk'
-import { PrismaClient } from 'prisma/generated'
+import { PrismaClient } from 'prisma/generated/prisma'
 
 @Injectable()
 export class PrismaService

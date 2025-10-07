@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
-import { Prisma } from 'prisma/generated'
+import { Prisma } from 'prisma/generated/prisma'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 
