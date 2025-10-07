@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { weekParity } from '@prisma/client'
+import { weekParity } from 'prisma/generated'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 
@@ -29,12 +29,7 @@ export class ScheduleService {
             is_selective: true
           }
         },
-        location: {
-          select: {
-            name: true,
-            url: true
-          }
-        }
+        location: { select: { name: true, url: true } }
       }
     })
   }
