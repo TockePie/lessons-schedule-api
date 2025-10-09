@@ -2,10 +2,9 @@ import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
 import { LoggerMiddleWare } from '../common/middlewares/logger.middleware'
-
-import { ExamModule } from './exam/exam.module'
-import { GroupModule } from './group/group.module'
-import { ScheduleModule } from './schedule/schedule.module'
+import { ExamModule } from '../modules/exam/exam.module'
+import { GroupModule } from '../modules/group/group.module'
+import { ScheduleModule } from '../modules/schedule/schedule.module'
 
 @Module({
   imports: [
