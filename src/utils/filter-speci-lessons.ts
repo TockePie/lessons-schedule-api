@@ -1,7 +1,7 @@
 import {
   GroupScheduleDayItem,
   GroupScheduleResponse
-} from 'src/modules/third-party/speci-lessons/dto/schedule'
+} from '../modules/third-party/speci-lessons/dto/schedule'
 
 const filterWeek = (week: GroupScheduleDayItem[]): GroupScheduleDayItem[] => {
   return week

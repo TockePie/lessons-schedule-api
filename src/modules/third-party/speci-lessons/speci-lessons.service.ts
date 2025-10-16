@@ -4,7 +4,7 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-import filterSpeciLessons from 'src/utils/filter-speci-lessons'
+import filterSpeciLessons from '../../../utils/filter-speci-lessons'
 
 import { GroupScheduleResponse } from './dto/schedule'
 
