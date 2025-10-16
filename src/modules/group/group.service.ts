@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 
-import { GroupCreateDto } from './group.dto'
+import { GroupCreateDto } from './dto/group.dto'
 
 @Injectable()
 export class GroupService {
