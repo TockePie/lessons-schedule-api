@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
-import { weekParity } from '../../generated/prisma'
+import { weekParity } from '../../generated/prisma/client'
 
 @Injectable()
 export class ScheduleService {
