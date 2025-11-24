@@ -14,6 +14,7 @@ import { SpeciLessonsModule } from '../modules/third-party/speci-lessons/speci-l
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
+        DATABASE_URL: Joi.string().uri().required(),
         EXTERNAL_API: Joi.string().uri().required()
       })
     }),

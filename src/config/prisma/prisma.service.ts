@@ -4,6 +4,7 @@ import {
   OnModuleDestroy,
   OnModuleInit
 } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 import chalk from 'chalk'
 
@@ -16,8 +17,13 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name)
 
-  constructor() {
-    const adapter = new PrismaPg({ url: process.env.DATABASE_URL })
+  constructor(configService: ConfigService) {
+    const databaseUrl = configService.get<string>('DATABASE_URL', {
+      infer: true
+    })
+
+    const adapter = new PrismaPg({ connectionString: databaseUrl })
+
     super({ adapter })
   }
 
