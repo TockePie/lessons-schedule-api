@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
-import chalk from 'chalk'
 
 import { PrismaClient } from '../../generated/prisma/client'
 
@@ -30,11 +29,11 @@ export class PrismaService
   async onModuleInit() {
     try {
       await this.$connect()
-      this.logger.log(chalk.green('Prisma connected'))
+      this.logger.log('Prisma connected')
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error)
-      this.logger.error(chalk.white.bgRed(errorMessage))
+      this.logger.error(errorMessage)
     }
   }
 
