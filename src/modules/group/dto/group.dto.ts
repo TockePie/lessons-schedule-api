@@ -1,12 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUrl,
-  IsUUID
-} from 'class-validator'
+import { IsDateString, IsOptional, IsUUID } from 'class-validator'
 
 export class GroupDto {
   @IsUUID()
@@ -32,21 +25,21 @@ export class GroupDto {
   updatedAt: Date
 }
 
-export class GroupCreateDto extends GroupDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    type: String,
-    description: 'Name of the group',
-    example: 'ІО-32'
-  })
-  name: string
+// export class GroupCreateDto extends GroupDto {
+//   @IsString()
+//   @IsNotEmpty()
+//   @ApiProperty({
+//     type: String,
+//     description: 'Name of the group',
+//     example: 'ІО-32'
+//   })
+//   name: string
 
-  @IsUrl()
-  @ApiProperty({
-    type: String,
-    description: 'Photo URL of the group',
-    example: 'https://example.com/photo.jpg'
-  })
-  photo: string
-}
+//   @IsUrl()
+//   @ApiProperty({
+//     type: String,
+//     description: 'Photo URL of the group',
+//     example: 'https://example.com/photo.jpg'
+//   })
+//   photo: string
+// }

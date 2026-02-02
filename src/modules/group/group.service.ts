@@ -1,9 +1,6 @@
-import { ConflictException, Injectable } from '@nestjs/common'
-import { v4 as uuidv4 } from 'uuid'
+import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
-
-import { GroupCreateDto } from './dto/group.dto'
 
 @Injectable()
 export class GroupService {
@@ -22,46 +19,46 @@ export class GroupService {
     })
   }
 
-  async createGroup(groupDto: GroupCreateDto, password: string) {
-    //TODO: Change then to header authorization
-    if (password !== process.env.PASSWORD) {
-      throw new ConflictException('Invalid password')
-    }
+  // async createGroup(groupDto: GroupCreateDto, password: string) {
+  //   //TODO: Change then to header authorization
+  //   if (password !== process.env.PASSWORD) {
+  //     throw new ConflictException('Invalid password')
+  //   }
 
-    const existingGroup = await this.prisma.group.findUnique({
-      where: { name: groupDto.name }
-    })
+  //   const existingGroup = await this.prisma.group.findUnique({
+  //     where: { name: groupDto.name }
+  //   })
 
-    if (existingGroup) {
-      throw new ConflictException('Group already exists')
-    }
+  //   if (existingGroup) {
+  //     throw new ConflictException('Group already exists')
+  //   }
 
-    return this.prisma.group.create({
-      data: {
-        group_id: uuidv4(),
-        name: groupDto.name,
-        photo: groupDto.photo,
-        created_at: new Date()
-      }
-    })
-  }
+  //   return this.prisma.group.create({
+  //     data: {
+  //       group_id: uuidv4(),
+  //       name: groupDto.name,
+  //       photo: groupDto.photo,
+  //       created_at: new Date()
+  //     }
+  //   })
+  // }
 
-  async updateGroupInfo(
-    id: string,
-    groupDto: GroupCreateDto,
-    password: string
-  ) {
-    //TODO: Change then to header authorization
-    if (password !== process.env.PASSWORD) {
-      throw new ConflictException('Invalid password')
-    }
+  // async updateGroupInfo(
+  //   id: string,
+  //   groupDto: GroupCreateDto,
+  //   password: string
+  // ) {
+  //   //TODO: Change then to header authorization
+  //   if (password !== process.env.PASSWORD) {
+  //     throw new ConflictException('Invalid password')
+  //   }
 
-    return this.prisma.group.update({
-      where: { group_id: id },
-      data: {
-        name: groupDto.name,
-        photo: groupDto.photo
-      }
-    })
-  }
+  //   return this.prisma.group.update({
+  //     where: { group_id: id },
+  //     data: {
+  //       name: groupDto.name,
+  //       photo: groupDto.photo
+  //     }
+  //   })
+  // }
 }
