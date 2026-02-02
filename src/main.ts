@@ -1,15 +1,18 @@
 import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import chalk from 'chalk'
 import cookieParser from 'cookie-parser'
 
-import { AppModule } from './app/app.module'
+import 'reflect-metadata'
 
-const PORT = process.env.PORT ?? 3000
+import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true })
+
+  const configService = app.get(ConfigService)
+  const port = configService.get<number>('PORT') ?? 3000
 
   app.useGlobalPipes(new ValidationPipe())
   app.use(cookieParser())
@@ -18,9 +21,8 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('swagger', app, documentFactory)
 
-  console.log(chalk.black.bgGreenBright(`Server is running on port: ${PORT}`))
-
-  await app.listen(PORT)
+  await app.listen(port, () => {
+    console.log(`The server is running on: http://localhost:${port}`)
+  })
 }
-
 bootstrap()
