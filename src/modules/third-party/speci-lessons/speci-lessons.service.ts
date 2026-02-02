@@ -1,5 +1,3 @@
-import { UUID } from 'node:crypto'
-
 import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -21,7 +19,7 @@ export class SpeciLessonsService {
     })
   }
 
-  async getSpeciLessons(group_id: UUID): Promise<GroupScheduleResponse> {
+  async getSpeciLessons(group_id: string): Promise<GroupScheduleResponse> {
     const url = `${this.externalUrl}/schedule/lessons?groupId=${group_id}`
     const res = await this.httpService.axiosRef.get<GroupScheduleResponse>(url)
 

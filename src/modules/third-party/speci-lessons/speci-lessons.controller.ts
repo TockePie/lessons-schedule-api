@@ -1,5 +1,3 @@
-import { UUID } from 'node:crypto'
-
 import {
   BadRequestException,
   Controller,
@@ -15,7 +13,7 @@ export class SpeciLessonsController {
   constructor(private readonly speciLessons: SpeciLessonsService) {}
 
   @Get()
-  async getSpeciLessons(@Query('groupId') group_id: UUID) {
+  async getSpeciLessons(@Query('groupId') group_id: string) {
     if (!group_id) {
       throw new BadRequestException('Group ID is not provided.')
     }

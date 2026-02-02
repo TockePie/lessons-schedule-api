@@ -1,5 +1,3 @@
-import { UUID } from 'node:crypto'
-
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsDateString,
@@ -16,7 +14,7 @@ export class GroupDto {
     type: String,
     format: 'uuid'
   })
-  group_id: UUID
+  group_id: string
 
   @IsDateString()
   @ApiProperty({

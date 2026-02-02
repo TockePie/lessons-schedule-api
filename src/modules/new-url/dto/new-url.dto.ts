@@ -1,5 +1,3 @@
-import { UUID } from 'node:crypto'
-
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsDateString,
@@ -15,7 +13,7 @@ export class NewUrlDto {
     type: String,
     format: 'uuid'
   })
-  id: UUID
+  id: string
 
   @IsObject()
   meta: Record<string, any>
@@ -42,7 +40,7 @@ export class CreateNewUrlDto extends NewUrlDto {
     type: String,
     format: 'uuid'
   })
-  subject_id: UUID
+  subject_id: string
 
   @IsUrl()
   url: string
