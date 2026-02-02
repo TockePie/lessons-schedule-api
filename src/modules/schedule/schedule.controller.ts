@@ -29,4 +29,9 @@ export class ScheduleController {
 
     return this.schedule.getGroupSchedule(id, week)
   }
+
+  @Get('/:id/selectives')
+  getAllSelectives(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.schedule.getAllSelectives(id)
+  }
 }

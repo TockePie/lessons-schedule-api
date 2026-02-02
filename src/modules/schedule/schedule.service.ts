@@ -7,6 +7,32 @@ import { weekParity } from '../../generated/prisma/client'
 export class ScheduleService {
   constructor(private readonly prisma: PrismaService) {}
 
+  getAllSelectives(groupId: string) {
+    return this.prisma.schedule.findMany({
+      where: {
+        group_id: groupId,
+        subject: {
+          is_selective: true
+        }
+      },
+      select: {
+        id: true,
+        day: true,
+        row: true,
+        week_parity: true,
+        subject: {
+          select: {
+            title: true,
+            teacher: true,
+            type: true,
+            url: true
+          }
+        },
+        location: { select: { name: true, url: true } }
+      }
+    })
+  }
+
   getGroupSchedule(id: string, week: 'even' | 'odd') {
     const weekParity = week.toUpperCase() as weekParity
 
