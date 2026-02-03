@@ -18,6 +18,11 @@ export class GroupController {
     return this.group.getGroupById(id)
   }
 
+  @Get('photo/:id')
+  getGroupPicture(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.group.getGroupPicture(id)
+  }
+
   // @Post()
   // createGroup(@Body() groupDto: GroupCreateDto, @Req() req: Request) {
   //   const password = req.cookies['password'] as string
