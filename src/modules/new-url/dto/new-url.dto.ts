@@ -1,22 +1,22 @@
-import { UUID } from 'node:crypto'
-
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsDateString,
-  IsNotEmpty,
+  IsObject,
   IsOptional,
-  IsString,
   IsUrl,
   IsUUID
 } from 'class-validator'
 
-export class GroupDto {
+export class NewUrlDto {
   @IsUUID()
   @ApiProperty({
     type: String,
     format: 'uuid'
   })
-  group_id: UUID
+  id: string
+
+  @IsObject()
+  meta: Record<string, any>
 
   @IsDateString()
   @ApiProperty({
@@ -34,21 +34,14 @@ export class GroupDto {
   updatedAt: Date
 }
 
-export class GroupCreateDto extends GroupDto {
-  @IsString()
-  @IsNotEmpty()
+export class CreateNewUrlDto extends NewUrlDto {
+  @IsUUID()
   @ApiProperty({
     type: String,
-    description: 'Name of the group',
-    example: 'ІО-32'
+    format: 'uuid'
   })
-  name: string
+  subject_id: string
 
   @IsUrl()
-  @ApiProperty({
-    type: String,
-    description: 'Photo URL of the group',
-    example: 'https://example.com/photo.jpg'
-  })
-  photo: string
+  url: string
 }
