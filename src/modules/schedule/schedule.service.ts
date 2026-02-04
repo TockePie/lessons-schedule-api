@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
 import { weekParity } from '../../generated/prisma/client'
+import { scheduleWhereInput } from '../../generated/prisma/models'
 
 @Injectable()
 export class ScheduleService {
@@ -33,14 +34,19 @@ export class ScheduleService {
     })
   }
 
-  getGroupSchedule(id: string, week: 'even' | 'odd') {
-    const weekParity = week.toUpperCase() as weekParity
+  getGroupSchedule(id: string, week?: 'even' | 'odd') {
+    const weekParity = week?.toUpperCase() as weekParity
+
+    const where: scheduleWhereInput = {
+      group_id: id
+    }
+
+    if (weekParity) {
+      where.OR = [{ week_parity: weekParity }, { week_parity: 'BOTH' }]
+    }
 
     return this.prisma.schedule.findMany({
-      where: {
-        group_id: id,
-        OR: [{ week_parity: weekParity }, { week_parity: 'BOTH' }]
-      },
+      where,
       select: {
         id: true,
         day: true,
