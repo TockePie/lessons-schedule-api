@@ -1,29 +1,29 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsDateString, IsOptional, IsUUID } from 'class-validator'
+// import { ApiProperty } from '@nestjs/swagger'
+// import { IsDateString, IsOptional, IsUUID } from 'class-validator'
 
-export class GroupDto {
-  @IsUUID()
-  @ApiProperty({
-    type: String,
-    format: 'uuid'
-  })
-  group_id: string
+// export class GroupDto {
+//   @IsUUID()
+//   @ApiProperty({
+//     type: String,
+//     format: 'uuid'
+//   })
+//   group_id: string
 
-  @IsDateString()
-  @ApiProperty({
-    type: Date,
-    format: 'date-time'
-  })
-  createdAt: Date
+//   @IsDateString()
+//   @ApiProperty({
+//     type: Date,
+//     format: 'date-time'
+//   })
+//   createdAt: Date
 
-  @IsOptional()
-  @IsDateString()
-  @ApiProperty({
-    type: Date,
-    format: 'date-time'
-  })
-  updatedAt: Date
-}
+//   @IsOptional()
+//   @IsDateString()
+//   @ApiProperty({
+//     type: Date,
+//     format: 'date-time'
+//   })
+//   updatedAt: Date
+// }
 
 // export class GroupCreateDto extends GroupDto {
 //   @IsString()

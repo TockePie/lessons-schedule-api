@@ -17,7 +17,7 @@ export class GroupService {
     })
   }
 
-  async getGroupById(id: string) {
+  private async getGroupById(id: string) {
     return this.prisma.group.findUnique({
       where: { group_id: id }
     })
@@ -35,47 +35,4 @@ export class GroupService {
 
     return data.publicUrl
   }
-
-  // async createGroup(groupDto: GroupCreateDto, password: string) {
-  //   //TODO: Change then to header authorization
-  //   if (password !== process.env.PASSWORD) {
-  //     throw new ConflictException('Invalid password')
-  //   }
-
-  //   const existingGroup = await this.prisma.group.findUnique({
-  //     where: { name: groupDto.name }
-  //   })
-
-  //   if (existingGroup) {
-  //     throw new ConflictException('Group already exists')
-  //   }
-
-  //   return this.prisma.group.create({
-  //     data: {
-  //       group_id: uuidv4(),
-  //       name: groupDto.name,
-  //       photo: groupDto.photo,
-  //       created_at: new Date()
-  //     }
-  //   })
-  // }
-
-  // async updateGroupInfo(
-  //   id: string,
-  //   groupDto: GroupCreateDto,
-  //   password: string
-  // ) {
-  //   //TODO: Change then to header authorization
-  //   if (password !== process.env.PASSWORD) {
-  //     throw new ConflictException('Invalid password')
-  //   }
-
-  //   return this.prisma.group.update({
-  //     where: { group_id: id },
-  //     data: {
-  //       name: groupDto.name,
-  //       photo: groupDto.photo
-  //     }
-  //   })
-  // }
 }
