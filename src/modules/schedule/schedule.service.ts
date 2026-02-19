@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service'
-import { weekParity } from '../../generated/prisma/client'
-import { scheduleWhereInput } from '../../generated/prisma/models'
 
 @Injectable()
 export class ScheduleService {
@@ -23,10 +21,12 @@ export class ScheduleService {
         week_parity: true,
         subject: {
           select: {
+            subject_id: true,
             title: true,
             teacher: true,
             type: true,
-            url: true
+            url: true,
+            is_selective: true
           }
         },
         location: { select: { name: true, url: true } }
@@ -34,19 +34,27 @@ export class ScheduleService {
     })
   }
 
-  getGroupSchedule(id: string, week?: 'even' | 'odd') {
-    const weekParity = week?.toUpperCase() as weekParity
-
-    const where: scheduleWhereInput = {
-      group_id: id
-    }
-
-    if (weekParity) {
-      where.OR = [{ week_parity: weekParity }, { week_parity: 'BOTH' }]
-    }
+  getGroupSchedule(
+    id: string,
+    week?: 'even' | 'odd',
+    selectives: string[] = []
+  ) {
+    const weekParity = week?.toUpperCase() as 'EVEN' | 'ODD'
 
     return this.prisma.schedule.findMany({
-      where,
+      where: {
+        group_id: id,
+        week_parity: weekParity ? { in: [weekParity, 'BOTH'] } : undefined,
+        subject:
+          selectives.length > 0
+            ? {
+                OR: [
+                  { is_selective: false },
+                  { subject_id: { in: selectives } }
+                ]
+              }
+            : undefined
+      },
       select: {
         id: true,
         day: true,
@@ -54,6 +62,7 @@ export class ScheduleService {
         week_parity: true,
         subject: {
           select: {
+            subject_id: true,
             title: true,
             teacher: true,
             type: true,

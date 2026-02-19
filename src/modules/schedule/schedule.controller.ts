@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseArrayPipe,
   ParseUUIDPipe,
   Query
 } from '@nestjs/common'
@@ -21,9 +22,14 @@ export class ScheduleController {
   @Get(':id')
   getGroupSchedule(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Query('week') week: 'even' | 'odd'
+    @Query('week') week: 'even' | 'odd',
+    @Query(
+      'selectives',
+      new ParseArrayPipe({ items: String, separator: ',', optional: true })
+    )
+    selectives: string[] = []
   ) {
-    return this.schedule.getGroupSchedule(id, week)
+    return this.schedule.getGroupSchedule(id, week, selectives)
   }
 
   @Get('/:id/selectives')
