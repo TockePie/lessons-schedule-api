@@ -21,10 +21,12 @@ export class ScheduleService {
         week_parity: true,
         subject: {
           select: {
+            subject_id: true,
             title: true,
             teacher: true,
             type: true,
-            url: true
+            url: true,
+            is_selective: true
           }
         },
         location: { select: { name: true, url: true } }
@@ -60,6 +62,7 @@ export class ScheduleService {
         week_parity: true,
         subject: {
           select: {
+            subject_id: true,
             title: true,
             teacher: true,
             type: true,

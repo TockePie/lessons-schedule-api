@@ -29,7 +29,6 @@ export class ScheduleController {
     )
     selectives: string[] = []
   ) {
-    console.log({ selectives })
     return this.schedule.getGroupSchedule(id, week, selectives)
   }
 
