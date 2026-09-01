@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { createClient } from '@supabase/supabase-js'
 
-import { EnvConfig } from '../env.schema'
+import { EnvConfig } from '../env.schema.js'
 
 export const SUPABASE_CLIENT = 'SUPABASE_CLIENT'
 
@@ -18,6 +18,6 @@ export const SUPABASE_CLIENT = 'SUPABASE_CLIENT'
       inject: [ConfigService]
     }
   ],
-  exports: ['SUPABASE_CLIENT']
+  exports: [SUPABASE_CLIENT]
 })
 export class SupabaseModule {}

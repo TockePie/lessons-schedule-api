@@ -1,10 +1,12 @@
 import { ConfigService } from '@nestjs/config'
 import { createClient } from '@supabase/supabase-js'
 
-import { EnvConfig } from '../env.schema'
+import { EnvConfig } from '../env.schema.js'
+
+import { SUPABASE_CLIENT } from './supabase.module.js'
 
 export const SupabaseProvider = {
-  provide: 'SUPABASE_CLIENT',
+  provide: SUPABASE_CLIENT,
   useFactory: (configService: ConfigService<EnvConfig, true>) => {
     const url = configService.get('SUPABASE_URL')
     const key = configService.get('SUPABASE_SERVICE_ROLE_KEY')

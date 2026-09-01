@@ -5,6 +5,7 @@
   "author": "Maxim Kradozhon",
   "private": true,
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "postinstall": "prisma generate",
     "build": "nest build",

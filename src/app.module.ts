@@ -9,7 +9,6 @@ import { APP_PIPE } from '@nestjs/core'
 
 import { LoggerMiddleWare } from './common/middlewares/logger.middleware.js'
 import { validateEnv } from './config/env.validation.js'
-import { SupabaseModule } from './config/supabase/supabase.module.js'
 import { GroupModule } from './modules/group/group.module.js'
 import { ScheduleModule } from './modules/schedule/schedule.module.js'
 import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-lessons.module.js'
@@ -26,7 +25,6 @@ import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-le
     SpeciLessonsModule
   ],
   providers: [
-    SupabaseModule,
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({

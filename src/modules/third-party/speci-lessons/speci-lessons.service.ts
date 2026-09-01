@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios'
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 import { EnvConfig } from '../../../config/env.schema.js'
@@ -12,7 +12,9 @@ export class SpeciLessonsService {
   private readonly externalUrl: string | undefined
 
   constructor(
+    @Inject(HttpService)
     private readonly httpService: HttpService,
+    @Inject(ConfigService)
     private readonly configService: ConfigService<EnvConfig, true>
   ) {
     this.externalUrl = this.configService.get('EXTERNAL_API', {

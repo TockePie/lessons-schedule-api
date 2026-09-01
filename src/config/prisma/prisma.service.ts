@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   Logger,
   OnModuleDestroy,
@@ -17,7 +18,9 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name)
 
-  constructor(configService: ConfigService<EnvConfig, true>) {
+  constructor(
+    @Inject(ConfigService) configService: ConfigService<EnvConfig, true>
+  ) {
     const databaseUrl = configService.get('DATABASE_URL', {
       infer: true
     })
