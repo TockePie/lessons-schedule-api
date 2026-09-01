@@ -5,7 +5,6 @@
   "author": "Maxim Kradozhon",
   "private": true,
   "license": "UNLICENSED",
-  "type": "module",
   "scripts": {
     "postinstall": "prisma generate",
     "build": "nest build",
@@ -48,6 +47,8 @@
     "@nestjs/mau": "^0.2.6",
     "@nestjs/schematics": "^12.0.0",
     "@nestjs/testing": "^12.0.1",
+    "@swc/cli": "^0.8.1",
+    "@swc/core": "^1.16.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",

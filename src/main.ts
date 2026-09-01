@@ -20,4 +20,4 @@ async function bootstrap() {
     console.log(`The server is running on: http://localhost:${port}`)
   })
 }
-await bootstrap()
+bootstrap()
