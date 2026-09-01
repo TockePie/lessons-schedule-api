@@ -2,9 +2,9 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-import filterSpeciLessons from '../../../utils/filter-speci-lessons'
+import filterSpeciLessons from '../../../utils/filter-speci-lessons.js'
 
-import { GroupScheduleResponse } from './dto/schedule'
+import { GroupScheduleResponse } from './dto/schedule.js'
 
 @Injectable()
 export class SpeciLessonsService {

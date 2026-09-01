@@ -3,7 +3,7 @@ import { v5 as uuidv5 } from 'uuid'
 import {
   GroupScheduleDayItem,
   GroupScheduleResponse
-} from '../modules/third-party/speci-lessons/dto/schedule'
+} from '../modules/third-party/speci-lessons/dto/schedule.js'
 
 const NAMESPACE = '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
 

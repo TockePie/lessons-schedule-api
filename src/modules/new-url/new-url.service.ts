@@ -1,9 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 
-import { PrismaService } from '../../config/prisma/prisma.service'
-import { Prisma } from '../../generated/prisma/client'
+import { PrismaService } from '../../config/prisma/prisma.service.js'
+import { Prisma } from '../../generated/prisma/client.js'
 
-import { CreateNewUrlDto } from './dto/new-url.dto'
+import { CreateNewUrlDto } from './dto/new-url.dto.js'
 @Injectable()
 export class NewUrlService {
   constructor(private readonly prisma: PrismaService) {}

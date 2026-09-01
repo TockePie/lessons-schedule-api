@@ -6,7 +6,7 @@ import {
   Query
 } from '@nestjs/common'
 
-import { SpeciLessonsService } from './speci-lessons.service'
+import { SpeciLessonsService } from './speci-lessons.service.js'
 
 @Controller('speci-lessons')
 export class SpeciLessonsController {

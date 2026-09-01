@@ -2,11 +2,11 @@ import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import Joi from 'joi'
 
-import { LoggerMiddleWare } from './common/middlewares/logger.middleware'
-import { SupabaseModule } from './config/supabase/supabase.module'
-import { GroupModule } from './modules/group/group.module'
-import { ScheduleModule } from './modules/schedule/schedule.module'
-import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-lessons.module'
+import { LoggerMiddleWare } from './common/middlewares/logger.middleware.js'
+import { SupabaseModule } from './config/supabase/supabase.module.js'
+import { GroupModule } from './modules/group/group.module.js'
+import { ScheduleModule } from './modules/schedule/schedule.module.js'
+import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-lessons.module.js'
 
 @Module({
   imports: [

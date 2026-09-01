@@ -1,43 +1,33 @@
-// @ts-check
-import eslint from '@eslint/js'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import eslintNestJs from '@darraghor/eslint-plugin-nestjs-typed'
+import js from '@eslint/js'
+import { defineConfig } from 'eslint/config'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
-export default tseslint.config(
+export default defineConfig([
   {
-    ignores: ['eslint.config.mjs']
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    plugins: { js },
+    extends: ['js/recommended'],
+    languageOptions: { globals: globals.node }
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
   {
+    files: ['**/*.ts', '**/*.mts', '**/*.cts'],
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest
-      },
-      ecmaVersion: 5,
-      sourceType: 'module',
       parserOptions: {
-        projectService: true,
+        projectService: true, // Enables type-aware linting via TS project service
         tsconfigRootDir: import.meta.dirname
       }
-    },
+    }
+  },
+  tseslint.configs.recommended,
+  {
     plugins: {
       'simple-import-sort': simpleImportSort
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      '@typescript-eslint/no-empty-interface': [
-        'error',
-        {
-          allowSingleExtends: true
-        }
-      ],
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': [
         'error',
@@ -63,13 +53,9 @@ export default tseslint.config(
             ['^.+\\.?(css)$']
           ]
         }
-      ],
-      'prettier/prettier': [
-        'error',
-        {
-          endOfLine: 'auto'
-        }
       ]
     }
-  }
-)
+  },
+  eslintConfigPrettier,
+  eslintNestJs.configs.flatRecommended
+])

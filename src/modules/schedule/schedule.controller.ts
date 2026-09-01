@@ -8,7 +8,7 @@ import {
   Query
 } from '@nestjs/common'
 
-import { ScheduleService } from './schedule.service'
+import { ScheduleService } from './schedule.service.js'
 
 @Controller('schedule')
 export class ScheduleController {

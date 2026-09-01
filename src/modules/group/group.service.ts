@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { SupabaseClient } from '@supabase/supabase-js'
 
-import { PrismaService } from '../../config/prisma/prisma.service'
+import { PrismaService } from '../../config/prisma/prisma.service.js'
 
 @Injectable()
 export class GroupService {

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common'
 
-import { GroupService } from './group.service'
+import { GroupService } from './group.service.js'
 
 @Controller('group')
 export class GroupController {

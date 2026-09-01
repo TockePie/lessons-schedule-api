@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Req } from '@nestjs/common'
 
-import { CreateNewUrlDto } from './dto/new-url.dto'
-import { NewUrlService } from './new-url.service'
+import { CreateNewUrlDto } from './dto/new-url.dto.js'
+import { NewUrlService } from './new-url.service.js'
 
 //TODO: Create a method to check these URLs by GUI and approve then or deny
 @Controller('new-url')

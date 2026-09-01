@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 
 import 'reflect-metadata'
 
-import { AppModule } from './app.module'
+import { AppModule } from './app.module.js'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true })
@@ -20,4 +20,4 @@ async function bootstrap() {
     console.log(`The server is running on: http://localhost:${port}`)
   })
 }
-bootstrap()
+await bootstrap()
