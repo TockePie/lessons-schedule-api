@@ -4,6 +4,9 @@
 /build
 /src/generated
 
+# TypeScript cache
+*.tsbuildinfo
+
 # Logs
 logs
 *.log

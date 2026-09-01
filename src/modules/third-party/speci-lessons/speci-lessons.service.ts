@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
+import { EnvConfig } from '../../../config/env.schema.js'
 import filterSpeciLessons from '../../../utils/filter-speci-lessons.js'
 
 import { GroupScheduleResponse } from './dto/schedule.js'
@@ -12,9 +13,9 @@ export class SpeciLessonsService {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService<EnvConfig, true>
   ) {
-    this.externalUrl = this.configService.get<string>('EXTERNAL_API', {
+    this.externalUrl = this.configService.get('EXTERNAL_API', {
       infer: true
     })
   }

@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 import { PrismaClient } from '../../generated/prisma/client.js'
+import { EnvConfig } from '../env.schema.js'
 
 @Injectable()
 export class PrismaService
@@ -16,8 +17,8 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name)
 
-  constructor(configService: ConfigService) {
-    const databaseUrl = configService.get<string>('DATABASE_URL', {
+  constructor(configService: ConfigService<EnvConfig, true>) {
+    const databaseUrl = configService.get('DATABASE_URL', {
       infer: true
     })
 
