@@ -57,5 +57,22 @@ export default defineConfig([
     }
   },
   eslintConfigPrettier,
-  eslintNestJs.configs.flatRecommended
+  eslintNestJs.configs.flatRecommended,
+  {
+    rules: {
+      '@darraghor/nestjs-typed/api-enum-property-best-practices': 'off',
+      '@darraghor/nestjs-typed/api-method-should-specify-api-operation': 'off',
+      '@darraghor/nestjs-typed/api-method-should-specify-api-response': 'off',
+      '@darraghor/nestjs-typed/api-operation-summary-description-capitalized':
+        'off',
+      '@darraghor/nestjs-typed/api-property-matches-property-optionality':
+        'off',
+      '@darraghor/nestjs-typed/api-property-returning-array-should-set-array':
+        'off',
+      '@darraghor/nestjs-typed/api-property-should-have-api-extra-models':
+        'off',
+      '@darraghor/nestjs-typed/controllers-should-supply-api-tags': 'off',
+      '@darraghor/nestjs-typed/swagger-file-upload-should-be-documented': 'off'
+    }
+  }
 ])

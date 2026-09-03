@@ -1,20 +1,24 @@
 import { Logger } from '@nestjs/common'
-import z from 'zod'
+import { plainToInstance } from 'class-transformer'
+import { validateSync } from 'class-validator'
 
-import { envSchema } from './env.schema.js'
+import { EnvironmentVariables } from './env.schema.js'
 
 const logger = new Logger('ValidateEnv')
 
 export function validateEnv(config: Record<string, unknown>) {
-  const result = envSchema.safeParse(config)
+  const validatedConfig = plainToInstance(EnvironmentVariables, config, {
+    enableImplicitConversion: true
+  })
 
-  if (!result.success) {
-    logger.error(
-      'Invalid environment variables:',
-      JSON.stringify(z.treeifyError(result.error), null, 2)
-    )
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false
+  })
+
+  if (errors.length > 0) {
+    logger.error('Invalid environment variables:', errors.toString())
     throw new Error('Environment validation failed')
   }
 
-  return result.data
+  return validatedConfig
 }

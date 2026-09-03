@@ -1,11 +1,27 @@
-import { z } from 'zod'
+import { Transform } from 'class-transformer'
+import { IsNumber, IsOptional, IsString, IsUrl } from 'class-validator'
 
-export const envSchema = z.object({
-  PORT: z.coerce.number().default(3000),
-  DATABASE_URL: z.url(),
-  EXTERNAL_API: z.url(),
-  SUPABASE_URL: z.url(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string()
-})
+export class EnvironmentVariables {
+  @IsOptional()
+  @IsNumber()
+  @Transform(({ value }) => (value ? Number(value) : 3000))
+  PORT: number = 3000
 
-export type EnvConfig = z.infer<typeof envSchema>
+  @IsUrl({
+    protocols: ['postgres', 'postgresql'],
+    require_tld: false,
+    require_protocol: true
+  })
+  DATABASE_URL: string
+
+  @IsUrl()
+  EXTERNAL_API: string
+
+  @IsUrl()
+  SUPABASE_URL: string
+
+  @IsString()
+  SUPABASE_SERVICE_ROLE_KEY: string
+}
+
+export type EnvConfig = EnvironmentVariables
