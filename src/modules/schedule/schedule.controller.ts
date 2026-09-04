@@ -20,7 +20,7 @@ export class ScheduleController {
   }
 
   @Get(':id')
-  getGroupSchedule(
+  async getGroupSchedule(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Query('week') week: 'even' | 'odd',
     @Query(
@@ -29,11 +29,11 @@ export class ScheduleController {
     )
     selectives: string[] = []
   ) {
-    return this.schedule.getGroupSchedule(id, week, selectives)
+    return await this.schedule.getGroupSchedule(id, week, selectives)
   }
 
   @Get('/:id/selectives')
-  getAllSelectives(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.schedule.getAllSelectives(id)
+  async getAllSelectives(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.schedule.getAllSelectives(id)
   }
 }

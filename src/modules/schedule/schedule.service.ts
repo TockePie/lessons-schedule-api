@@ -6,71 +6,64 @@ import { PrismaService } from '../../config/prisma/prisma.service.js'
 export class ScheduleService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAllSelectives(groupId: string) {
-    return this.prisma.schedule.findMany({
-      where: {
-        group_id: groupId,
-        subject: {
-          is_selective: true
-        }
-      },
-      select: {
-        id: true,
-        day: true,
-        row: true,
-        week_parity: true,
-        subject: {
-          select: {
-            subject_id: true,
-            title: true,
-            teacher: true,
-            type: true,
-            url: true,
-            is_selective: true
-          }
-        },
-        location: { select: { name: true, url: true } }
-      }
-    })
-  }
-
-  getGroupSchedule(
+  async getGroupSchedule(
     id: string,
     week?: 'even' | 'odd',
     selectives: string[] = []
   ) {
     const weekParity = week?.toUpperCase() as 'EVEN' | 'ODD'
 
-    return this.prisma.schedule.findMany({
+    const subjectFilter =
+      selectives.length > 0
+        ? {
+            OR: [{ is_selective: false }, { subject_id: { in: selectives } }]
+          }
+        : { is_selective: false }
+
+    return await this.prisma.schedule.findMany({
       where: {
         group_id: id,
         week_parity: weekParity ? { in: [weekParity, 'BOTH'] } : undefined,
-        subject:
-          selectives.length > 0
-            ? {
-                OR: [
-                  { is_selective: false },
-                  { subject_id: { in: selectives } }
-                ]
-              }
-            : undefined
+        subject: subjectFilter
       },
-      select: {
-        id: true,
-        day: true,
-        row: true,
-        week_parity: true,
+      include: {
         subject: {
-          select: {
-            subject_id: true,
-            title: true,
-            teacher: true,
-            type: true,
-            url: true,
-            is_selective: true
+          omit: {
+            created_at: true,
+            updated_at: true
           }
         },
-        location: { select: { name: true, url: true } }
+        location: {
+          select: { name: true, url: true }
+        }
+      },
+      omit: {
+        subject_id: true,
+        location_id: true,
+        created_at: true,
+        updated_at: true
+      }
+    })
+  }
+
+  async getAllSelectives(groupId: string) {
+    return await this.prisma.schedule.findMany({
+      where: {
+        group_id: groupId,
+        subject: {
+          is_selective: true
+        }
+      },
+      include: {
+        subject: {
+          omit: {
+            created_at: true,
+            updated_at: true
+          }
+        },
+        location: {
+          select: { name: true, url: true }
+        }
       }
     })
   }
