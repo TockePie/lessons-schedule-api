@@ -1,6 +1,6 @@
-import { GroupLesson } from '../modules/third-party/spec-lessons/dto/lesson.dto.js'
-import { GroupScheduleResponse } from '../modules/third-party/spec-lessons/dto/response.dto.js'
-import { GroupScheduleDayItem } from '../modules/third-party/spec-lessons/dto/schedule-day.dto.js'
+import { GroupLesson } from '../dto/lesson.dto.js'
+import { GroupScheduleResponse } from '../dto/response.dto.js'
+import { GroupScheduleDayItem } from '../dto/schedule-day.dto.js'
 
 import { generateUuid } from './generate-uuid.js'
 

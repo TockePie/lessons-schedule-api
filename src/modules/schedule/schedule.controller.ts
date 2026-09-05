@@ -23,13 +23,19 @@ export class ScheduleController {
   async getGroupSchedule(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Query('week') week: 'even' | 'odd',
+    @Query('withSpecials') withSpecials: boolean,
     @Query(
       'selectives',
       new ParseArrayPipe({ items: String, separator: ',', optional: true })
     )
     selectives: string[] = []
   ) {
-    return await this.schedule.getGroupSchedule(id, week, selectives)
+    return await this.schedule.getGroupSchedule(
+      id,
+      week,
+      withSpecials,
+      selectives
+    )
   }
 
   @Get('/:id/selectives')

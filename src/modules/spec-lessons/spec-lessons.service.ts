@@ -2,25 +2,26 @@ import { HttpService } from '@nestjs/axios'
 import {
   Inject,
   Injectable,
-  InternalServerErrorException
+  InternalServerErrorException,
+  Logger
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { plainToInstance } from 'class-transformer'
 import { validateOrReject } from 'class-validator'
 import { firstValueFrom } from 'rxjs'
 
-import { EnvConfig } from '../../../config/env.schema.js'
-import { filterSpecLessons } from '../../../utils/filter-spec-lessons.js'
-import { groupSpecials } from '../../../utils/group-specials.js'
-import { transformSpecials } from '../../../utils/transform-specials.js'
-import { GroupService } from '../../group/group.service.js'
-import { ScheduleLesson } from '../../schedule/types/schedule.type.js'
+import { EnvConfig } from '../../config/env.schema.js'
+import { GroupService } from '../group/group.service.js'
 
 import { GroupScheduleResponse } from './dto/response.dto.js'
+import { filterSpecLessons } from './utils/filter-spec-lessons.js'
+import { groupSpecials } from './utils/group-specials.js'
+import { transformSpecials } from './utils/transform-specials.js'
 
 @Injectable()
 export class SpecLessonsService {
   private readonly externalUrl: string
+  private readonly logger = new Logger(SpecLessonsService.name)
 
   constructor(
     @Inject(HttpService)
@@ -34,30 +35,22 @@ export class SpecLessonsService {
     })
   }
 
-  async getSpecLessonsFromSchedule(
-    group_id: string,
-    schedule: ScheduleLesson[]
-  ) {
-    const group = await this.groupService.getGroupById(group_id)
-    if (!group?.externalId) {
-      throw new InternalServerErrorException(
-        `The group ${group_id} has no external ID.`
-      )
-    }
-
-    const rawSpecials = await this.fetchExternalData(group?.externalId)
+  async getSpecials(group_id: string, urlMap: Map<string, string | null>) {
+    const { externalId, groupId } = await this.getGroup(group_id)
+    const rawSpecials = await this.fetchExternalData(externalId)
     const specials = await this.validateResponse(rawSpecials)
+
     const filteredSpecials = filterSpecLessons(specials)
     const groupedSpecials = groupSpecials(filteredSpecials)
     const transformedSpecials = transformSpecials(
       groupedSpecials,
-      group.group_id,
-      schedule
+      groupId,
+      urlMap
     )
     return transformedSpecials
   }
 
-  async getSpecLessons(group_id: string) {
+  private async getGroup(group_id: string) {
     const group = await this.groupService.getGroupById(group_id)
     if (!group?.externalId) {
       throw new InternalServerErrorException(
@@ -65,22 +58,15 @@ export class SpecLessonsService {
       )
     }
 
-    const rawSpecials = await this.fetchExternalData(group?.externalId)
-    const specials = await this.validateResponse(rawSpecials)
-    const filteredSpecials = filterSpecLessons(specials)
-    const groupedSpecials = groupSpecials(filteredSpecials)
-    const transformedSpecials = transformSpecials(
-      groupedSpecials,
-      group.group_id
-    )
-    return transformedSpecials
+    return {
+      externalId: group.externalId,
+      groupId: group.group_id
+    }
   }
 
   private async fetchExternalData(externalGroupId: string) {
     const url = `${this.externalUrl}/schedule/lessons?groupId=${externalGroupId}`
-    const { data } = await firstValueFrom(
-      this.httpService.get<GroupScheduleResponse>(url)
-    )
+    const { data } = await firstValueFrom(this.httpService.get(url))
     return data
   }
 
@@ -90,7 +76,7 @@ export class SpecLessonsService {
     return validateOrReject(instance)
       .then(() => instance)
       .catch((errors) => {
-        console.error(
+        this.logger.error(
           'External API validation failed',
           JSON.stringify(errors, null, 2)
         )
