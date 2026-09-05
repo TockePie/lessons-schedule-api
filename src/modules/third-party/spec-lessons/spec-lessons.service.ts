@@ -1,0 +1,78 @@
+import { HttpService } from '@nestjs/axios'
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException
+} from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { plainToInstance } from 'class-transformer'
+import { validateOrReject } from 'class-validator'
+import { firstValueFrom } from 'rxjs'
+
+import { EnvConfig } from '../../../config/env.schema.js'
+import { filterSpecLessons } from '../../../utils/filter-spec-lessons.js'
+import { groupSpecials } from '../../../utils/group-specials.js'
+import { transformSpecials } from '../../../utils/transform-specials.js'
+import { GroupService } from '../../group/group.service.js'
+
+import { GroupScheduleResponse } from './dto/response.dto.js'
+
+@Injectable()
+export class SpecLessonsService {
+  private readonly externalUrl: string
+
+  constructor(
+    @Inject(HttpService)
+    private readonly httpService: HttpService,
+    @Inject(ConfigService)
+    private readonly configService: ConfigService<EnvConfig, true>,
+    private readonly groupService: GroupService
+  ) {
+    this.externalUrl = this.configService.get('EXTERNAL_API', {
+      infer: true
+    })
+  }
+
+  async getSpecLessons(group_id: string) {
+    const group = await this.groupService.getGroupById(group_id)
+    if (!group?.externalId) {
+      throw new InternalServerErrorException(
+        `The group ${group_id} has no external ID.`
+      )
+    }
+
+    const rawSpecials = await this.fetchExternalData(group?.externalId)
+    const specials = await this.validateResponse(rawSpecials)
+    const filteredSpecials = filterSpecLessons(specials)
+    const groupedSpecials = groupSpecials(filteredSpecials)
+    const transformedSpecials = transformSpecials(
+      groupedSpecials,
+      group.group_id
+    )
+    return transformedSpecials
+  }
+
+  private async fetchExternalData(externalGroupId: string) {
+    const url = `${this.externalUrl}/schedule/lessons?groupId=${externalGroupId}`
+    const { data } = await firstValueFrom(
+      this.httpService.get<GroupScheduleResponse>(url)
+    )
+    return data
+  }
+
+  private async validateResponse(data: unknown) {
+    const instance = plainToInstance(GroupScheduleResponse, data)
+
+    return validateOrReject(instance)
+      .then(() => instance)
+      .catch((errors) => {
+        console.error(
+          'External API validation failed',
+          JSON.stringify(errors, null, 2)
+        )
+        throw new InternalServerErrorException(
+          'Invalid response from external schedule API'
+        )
+      })
+  }
+}

@@ -18,7 +18,7 @@ export class GroupService {
     })
   }
 
-  private async getGroupById(id: string) {
+  async getGroupById(id: string) {
     return this.prisma.group.findUnique({
       where: { group_id: id }
     })
@@ -30,10 +30,10 @@ export class GroupService {
       throw new NotFoundException('This group is not found.')
     }
 
-    const { data } = this.supabase.storage
-      .from('groupphotos')
-      .getPublicUrl(group?.photo)
+    const {
+      data: { publicUrl }
+    } = this.supabase.storage.from('groupphotos').getPublicUrl(group?.photo)
 
-    return data.publicUrl
+    return publicUrl
   }
 }

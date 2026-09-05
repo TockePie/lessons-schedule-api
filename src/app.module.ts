@@ -11,7 +11,7 @@ import { LoggerMiddleWare } from './common/middlewares/logger.middleware.js'
 import { validateEnv } from './config/env.validation.js'
 import { GroupModule } from './modules/group/group.module.js'
 import { ScheduleModule } from './modules/schedule/schedule.module.js'
-import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-lessons.module.js'
+import { SpecLessonsModule } from './modules/third-party/spec-lessons/spec-lessons.module.js'
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { SpeciLessonsModule } from './modules/third-party/speci-lessons/speci-le
 
     GroupModule,
     ScheduleModule,
-    SpeciLessonsModule
+    SpecLessonsModule
   ],
   providers: [
     {
