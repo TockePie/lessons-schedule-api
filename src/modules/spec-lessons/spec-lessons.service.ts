@@ -36,21 +36,17 @@ export class SpecLessonsService {
   }
 
   async getSpecials(group_id: string, urlMap: Map<string, string | null>) {
-    const { externalId, groupId } = await this.getGroup(group_id)
+    const externalId = await this.getExternalId(group_id)
     const rawSpecials = await this.fetchExternalData(externalId)
     const specials = await this.validateResponse(rawSpecials)
 
     const filteredSpecials = filterSpecLessons(specials)
     const groupedSpecials = groupSpecials(filteredSpecials)
-    const transformedSpecials = transformSpecials(
-      groupedSpecials,
-      groupId,
-      urlMap
-    )
+    const transformedSpecials = transformSpecials(groupedSpecials, urlMap)
     return transformedSpecials
   }
 
-  private async getGroup(group_id: string) {
+  private async getExternalId(group_id: string) {
     const group = await this.groupService.getGroupById(group_id)
     if (!group?.externalId) {
       throw new InternalServerErrorException(
@@ -58,10 +54,7 @@ export class SpecLessonsService {
       )
     }
 
-    return {
-      externalId: group.externalId,
-      groupId: group.group_id
-    }
+    return group.externalId
   }
 
   private async fetchExternalData(externalGroupId: string) {

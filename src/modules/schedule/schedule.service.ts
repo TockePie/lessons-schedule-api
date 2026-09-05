@@ -65,6 +65,7 @@ export class ScheduleService {
         }
       },
       omit: {
+        group_id: true,
         subject_id: true,
         location_id: true,
         created_at: true,

@@ -21,12 +21,10 @@ const TYPE_MAP: Record<string, string> = {
 
 export function transformSpecials(
   groupedSpecials: ReturnType<typeof groupSpecials>,
-  groupId: string,
   urlMap: Map<string, string | null>
 ) {
   return groupedSpecials.map((special) => ({
     id: randomUUID(),
-    group_id: groupId,
     day: special.day,
     row: TIME_TO_ROW[special.time] ?? null,
     week_parity: getWeekParity(special.dates),
