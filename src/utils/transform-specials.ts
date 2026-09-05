@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
+import { ScheduleLesson } from '../modules/schedule/types/schedule.type.js'
+
 import { formatTeacherName } from './format-teachers-name.js'
 import { getWeekParity } from './get-week-parity.js'
 import { groupSpecials } from './group-specials.js'
@@ -21,8 +23,24 @@ const TYPE_MAP: Record<string, string> = {
 
 export function transformSpecials(
   groupedSpecials: ReturnType<typeof groupSpecials>,
-  groupId: string
+  groupId: string,
+  normalSchedule?: ScheduleLesson[]
 ) {
+  const lessonUrls = new Map()
+
+  if (normalSchedule) {
+    for (const lesson of normalSchedule) {
+      lessonUrls.set(lesson.externalId, lesson.subject.url)
+    }
+  }
+
+  console.log({
+    groupedSpecials,
+    groupId,
+    lessonUrls,
+    normalSchedule: JSON.stringify(normalSchedule, null, 2)
+  })
+
   return groupedSpecials.map((special) => ({
     id: randomUUID(),
     group_id: groupId,
@@ -38,7 +56,7 @@ export function transformSpecials(
       title: special.name,
       teacher: formatTeacherName(special.lecturer?.name),
       type: TYPE_MAP[special.type] || special.type,
-      url: null,
+      url: lessonUrls.get(special.uuid) ?? null,
       is_selective: false
     }
   }))

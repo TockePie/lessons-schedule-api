@@ -14,6 +14,7 @@ import { filterSpecLessons } from '../../../utils/filter-spec-lessons.js'
 import { groupSpecials } from '../../../utils/group-specials.js'
 import { transformSpecials } from '../../../utils/transform-specials.js'
 import { GroupService } from '../../group/group.service.js'
+import { ScheduleLesson } from '../../schedule/types/schedule.type.js'
 
 import { GroupScheduleResponse } from './dto/response.dto.js'
 
@@ -31,6 +32,29 @@ export class SpecLessonsService {
     this.externalUrl = this.configService.get('EXTERNAL_API', {
       infer: true
     })
+  }
+
+  async getSpecLessonsFromSchedule(
+    group_id: string,
+    schedule: ScheduleLesson[]
+  ) {
+    const group = await this.groupService.getGroupById(group_id)
+    if (!group?.externalId) {
+      throw new InternalServerErrorException(
+        `The group ${group_id} has no external ID.`
+      )
+    }
+
+    const rawSpecials = await this.fetchExternalData(group?.externalId)
+    const specials = await this.validateResponse(rawSpecials)
+    const filteredSpecials = filterSpecLessons(specials)
+    const groupedSpecials = groupSpecials(filteredSpecials)
+    const transformedSpecials = transformSpecials(
+      groupedSpecials,
+      group.group_id,
+      schedule
+    )
+    return transformedSpecials
   }
 
   async getSpecLessons(group_id: string) {

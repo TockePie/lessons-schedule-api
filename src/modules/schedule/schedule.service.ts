@@ -1,12 +1,35 @@
 import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service.js'
+import { SpecLessonsService } from '../third-party/spec-lessons/spec-lessons.service.js'
 
 @Injectable()
 export class ScheduleService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly specLessonsService: SpecLessonsService
+  ) {}
 
   async getGroupSchedule(
+    id: string,
+    week?: 'even' | 'odd',
+    selectives: string[] = [],
+    withSpecials: boolean = true
+  ) {
+    const schedule = await this.fetchSchedule(id, week, selectives)
+    if (!withSpecials) {
+      return schedule
+    }
+
+    const specials = await this.specLessonsService.getSpecLessonsFromSchedule(
+      id,
+      schedule
+    )
+
+    return [...schedule, ...specials]
+  }
+
+  private async fetchSchedule(
     id: string,
     week?: 'even' | 'odd',
     selectives: string[] = []

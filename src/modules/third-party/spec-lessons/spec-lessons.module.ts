@@ -9,6 +9,7 @@ import { SpecLessonsService } from './spec-lessons.service.js'
 @Module({
   imports: [HttpModule, GroupModule],
   controllers: [SpecLessonsController],
-  providers: [SpecLessonsService]
+  providers: [SpecLessonsService],
+  exports: [SpecLessonsService]
 })
 export class SpecLessonsModule {}
