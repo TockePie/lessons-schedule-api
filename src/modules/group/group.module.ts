@@ -9,6 +9,7 @@ import { GroupService } from './group.service.js'
 @Module({
   imports: [PrismaModule, SupabaseModule],
   controllers: [GroupController],
-  providers: [GroupService]
+  providers: [GroupService],
+  exports: [GroupService]
 })
 export class GroupModule {}

@@ -33,11 +33,15 @@ export class PrismaService
   async onModuleInit() {
     try {
       await this.$connect()
+      await this.$queryRaw`SELECT 1`
+
       this.logger.log('Prisma connected')
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error)
-      this.logger.error(errorMessage)
+      this.logger.error(`Database connection failed: ${errorMessage}`)
+
+      throw new Error(`Failed to connect to database: ${errorMessage}`)
     }
   }
 

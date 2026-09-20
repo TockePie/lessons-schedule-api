@@ -1,12 +1,39 @@
 import { Injectable } from '@nestjs/common'
 
 import { PrismaService } from '../../config/prisma/prisma.service.js'
+import { SpecLessonsService } from '../spec-lessons/spec-lessons.service.js'
 
 @Injectable()
 export class ScheduleService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly specLessonsService: SpecLessonsService
+  ) {}
 
   async getGroupSchedule(
+    id: string,
+    week?: 'even' | 'odd',
+    withSpecials: boolean = true,
+    selectives: string[] = []
+  ) {
+    const schedule = await this.fetchSchedule(id, week, selectives)
+    if (!withSpecials) {
+      return schedule
+    }
+
+    const urlMap = new Map<string, string | null>()
+    for (const lesson of schedule) {
+      if (lesson.externalId) {
+        urlMap.set(lesson.externalId, lesson.subject?.url ?? null)
+      }
+    }
+
+    const specials = await this.specLessonsService.getSpecials(id, urlMap)
+
+    return [...schedule, ...specials]
+  }
+
+  private async fetchSchedule(
     id: string,
     week?: 'even' | 'odd',
     selectives: string[] = []
@@ -38,6 +65,7 @@ export class ScheduleService {
         }
       },
       omit: {
+        group_id: true,
         subject_id: true,
         location_id: true,
         created_at: true,

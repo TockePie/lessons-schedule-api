@@ -7,12 +7,12 @@ export class GroupController {
   constructor(private readonly group: GroupService) {}
 
   @Get()
-  getGroupsName() {
+  async getGroupsName() {
     return this.group.getGroupsName()
   }
 
   @Get('photo/:id')
-  getGroupPicture(@Param('id', new ParseUUIDPipe()) id: string) {
+  async getGroupPicture(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.group.getGroupPicture(id)
   }
 }
