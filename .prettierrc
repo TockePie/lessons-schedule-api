@@ -2,5 +2,24 @@
   "singleQuote": true,
   "semi": false,
   "printWidth": 80,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^node:",
+    "",
+    "^@nestjs/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^(@|src)(/.*|$)",
+    "^@(modules|controllers|services|entities|repositories|pipes|guards|interceptors|filters|decorators|dto|interfaces)(/.*|$)",
+    "",
+    "^\\.\\.(?!/?$)",
+    "^\\.\\./?$",
+    "",
+    "^\\./(?=.*/)(?!/?$)",
+    "^\\.(?!/?$)",
+    "^\\./?$"
+  ],
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

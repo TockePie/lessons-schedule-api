@@ -4,6 +4,7 @@ import { PrismaService } from '../../config/prisma/prisma.service.js'
 import { Prisma } from '../../generated/prisma/client.js'
 
 import { CreateNewUrlDto } from './dto/new-url.dto.js'
+
 @Injectable()
 export class NewUrlService {
   constructor(private readonly prisma: PrismaService) {}
